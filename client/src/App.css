@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  font-family: "Quicksand";
+}
+
+.App {
+  text-align: center;
+  /* background-image: url("https://media.istockphoto.com/photos/supermarket-aisle-blur-abstract-background-picture-id843469610?k=20&m=843469610&s=612x612&w=0&h=fi1fLbQzySZZefN7bAhDde0ZxNmEiAa6QEvSdc6wzz8="); */
+}
+
+.title {
+  margin-top: 15px;
+  margin-bottom: 40px;
+}
+
+.items-container {
+  margin-top: 10px;
+  padding: 12px 22px;
+  width: 80%;
+}
+
+.progressBar {
+  display: block;
+  width: 50%;
+  margin: auto;
+}
+
+.item img {
+  width: 150px;
+  height: 150px;
+  margin: auto;
+  padding: 12px 22px;
+}
+
+.singleItem {
+  width: 50%;
+  margin: auto;
+  margin-top: 10px;
+  padding-top: 15px;
+
+}
+.listItem{
+  display: flex;
+}
+.singleItem div {
+  /* background-color: rgb(221, 58, 58); */
+  width: 60%;
+  margin: auto;
+}
+
+.singleItem p {
+  margin-top: 15px;
+}
+
+.singleItem img {
+  width: 300px;
+  margin: auto;
+  padding: 14px 22px;
+}
+
+.singleItem button {
+  margin-top: 15px;
+}
+
+.itemInCart {
+  display: flex;
+  margin-bottom: 15px
+}
+
+.itemInCart img {
+  width: 100px;
+  height: 125px;
+  margin-left: 5px;
+}
+
+.itemInCart div {
+  padding: 18px 24px;
+}
+
+.itemInCart button{
+  /* height: 50%; */
+}
+
+.desc {
+  width: 60%;
+  margin: auto;
+}
