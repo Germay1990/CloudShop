@@ -28,13 +28,14 @@
 }
 
 .item img {
-  width: 150px;
-  height: 150px;
-  margin: auto;
-  padding: 12px 22px;
+  max-width: 150px;
+  max-height: 150px;
+  padding: 12px 20px;
 }
 
 .singleItem {
+  display: flex;
+
   width: 50%;
   margin: auto;
   margin-top: 10px;

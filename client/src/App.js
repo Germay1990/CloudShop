@@ -6,7 +6,7 @@ import Menu from "./Components/menu";
 import ItemPage from "./Components/itemPage";
 import Cart from "./Components/cart";
 import store from "./store";
-
+import Login from "./Components/login";
 
 function App() {
   let [data, setData] = useState([]);
@@ -18,7 +18,9 @@ function App() {
 
   useEffect(() => {
     const abortCont = new AbortController();
-    fetch("https://server-shop-2022.herokuapp.com/products", { signal: abortCont.signal })
+    fetch("https://server-shop-2022.herokuapp.com/products", {
+      signal: abortCont.signal,
+    })
       .then((res) => {
         if (!res.ok) {
           throw Error("could not fetch the data for that resource");
@@ -47,11 +49,13 @@ function App() {
         <Menu />
 
         <Routes>
+          {/* <Route path="/" element={<Login />} /> */}
+
           <Route
             path="/"
             element={<ItemsList allItems={data} title={"Items Catalog"} />}
           />
-          <Route path="/items" element={<ItemsList allItems={data} />} />
+          {/* <Route path="/items" element={<ItemsList allItems={data} />} /> */}
           <Route path="/items/:id" element={<ItemPage allItems={data} />} />
           <Route path="/cart" element={<Cart />} />
         </Routes>

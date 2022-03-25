@@ -4,7 +4,7 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 export default function Menu(props) {
   return (
     <div className="menu-navbar">
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark ">
+      <nav className="navbar navbar-expand-sm navbar-dark bg-dark ">
         <div className="container-fluid">
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">

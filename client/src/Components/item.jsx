@@ -6,7 +6,7 @@ export default function Item(props) {
       {props.displayData === "partDetailed" && (
         <div className="listItem">
           <Link to={`/items/${props.itemData.id}`}>
-            <img src={props.itemData.image} alt="" />
+            <img src={props.itemData.image} className="img-fluid " alt="" />
           </Link>{" "}
           <p>{props.itemData.title}</p>
         </div>
@@ -14,15 +14,14 @@ export default function Item(props) {
 
       {props.displayData === "fullItemDetails" && (
         <div className="singleItem">
-          <div className="desc">
+          <img src={props.itemData.image} alt="" />
+          <div>
             <p> {props.itemData.description}</p>
-          </div>
-          <div className="price">
+
             <p>
               <strong>Price:</strong> {props.itemData.price}$
             </p>
           </div>
-          <img src={props.itemData.image} alt="" />
         </div>
       )}
     </div>
