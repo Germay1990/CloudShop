@@ -10,11 +10,47 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useState } from "react";
+import { useState, forwardRef } from "react";
+
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function Cart(props) {
   let [currentItem, setCurrentItem] = useState({});
   const [open, setOpen] = useState(false);
+
+  const [openSnackbar, setOpenSnackbar] = useState({
+    open: false,
+    severity: "",
+    text: "",
+  });
+
+  const handleAddProductClick = () => {
+    setOpenSnackbar({
+      open: true,
+      severity: "success",
+      text: "Item added successfully",
+    });
+  };
+
+  const handleRemoveProductClick = () => {
+    setOpenSnackbar({
+      open: true,
+      severity: "warning",
+      text: "Item removed successfully",
+    });
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar({ ...openSnackbar, open: false });
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -59,6 +95,7 @@ export default function Cart(props) {
                         item.qty = 1;
                       } else {
                         item.qty -= 1;
+                        handleRemoveProductClick();
                       }
                     }}
                   >
@@ -67,6 +104,7 @@ export default function Cart(props) {
                   <Button
                     onClick={() => {
                       item.qty += 1;
+                      handleAddProductClick();
                     }}
                   >
                     <AddIcon fontSize="small" />
@@ -86,7 +124,6 @@ export default function Cart(props) {
                 </div>
               </div>
             </div>
-
             <hr />
           </div>
         ))}
@@ -110,6 +147,22 @@ export default function Cart(props) {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={openSnackbar.open}
+        autoHideDuration={1000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          open={openSnackbar.open}
+          severity={openSnackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {openSnackbar.text}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
