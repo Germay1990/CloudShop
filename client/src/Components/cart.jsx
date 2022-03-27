@@ -5,7 +5,28 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import store from "../store";
 import { removeFromCartAction } from "../actions";
 
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { useState } from "react";
+
 export default function Cart(props) {
+  let [currentItem, setCurrentItem] = useState({});
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (evt) => {
+    if (evt.target.innerHTML === "Delete") {
+      store.dispatch(removeFromCartAction(currentItem));
+    }
+    setOpen(false);
+  };
+
   return (
     <div className="container">
       <div className="title">
@@ -55,8 +76,9 @@ export default function Cart(props) {
                 <div>
                   <button
                     className="btn btn-danger"
-                    onClick={() => {
-                      store.dispatch(removeFromCartAction(item));
+                    onClick={(evt) => {
+                      setCurrentItem(item);
+                      handleClickOpen(evt);
                     }}
                   >
                     Remove
@@ -68,6 +90,26 @@ export default function Cart(props) {
             <hr />
           </div>
         ))}
+
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Delete Product</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
