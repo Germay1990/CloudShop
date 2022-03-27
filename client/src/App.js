@@ -7,6 +7,7 @@ import ItemPage from "./Components/itemPage";
 import Cart from "./Components/cart";
 import store from "./store";
 import Login from "./Components/login";
+import ItemsTable from './Components/itemsTable';
 
 function App() {
   let [data, setData] = useState([]);
@@ -55,7 +56,7 @@ function App() {
             path="/"
             element={<ItemsList allItems={data} title={"Items Catalog"} />}
           />
-          {/* <Route path="/items" element={<ItemsList allItems={data} />} /> */}
+          <Route path="/items" element={<ItemsTable allItems={data} />} />
           <Route path="/items/:id" element={<ItemPage allItems={data} />} />
           <Route path="/cart" element={<Cart />} />
         </Routes>
