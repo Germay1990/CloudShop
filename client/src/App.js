@@ -6,22 +6,21 @@ import Menu from "./Components/menu";
 import ItemPage from "./Components/itemPage";
 import Cart from "./Components/cart";
 import store from "./store";
-import Login from "./Components/login";
-import ItemsTable from './Components/itemsTable';
+import ItemsTable from "./Components/itemsTable";
+import Checkout from './Components/checkout';
 
 function App() {
   let [data, setData] = useState([]);
   let [cartItems, setCartItems] = useState([]);
+  let url = process.env.REACT_APP_API + "products";
 
   store.subscribe(() => {
     setCartItems(store.getState());
   });
 
-  useEffect(() => {
+  const refreshList = () => {
     const abortCont = new AbortController();
-    fetch("https://server-shop-2022.herokuapp.com/products", {
-      signal: abortCont.signal,
-    })
+    fetch(url, { signal: abortCont.signal })
       .then((res) => {
         if (!res.ok) {
           throw Error("could not fetch the data for that resource");
@@ -42,16 +41,17 @@ function App() {
         }
       });
     return () => abortCont.abort();
-  }, [data]);
+  };
 
+  useEffect(() => {
+    refreshList();
+  });
   return (
     <div className="App">
       <Router>
         <Menu />
 
         <Routes>
-          {/* <Route path="/" element={<Login />} /> */}
-
           <Route
             path="/"
             element={<ItemsList allItems={data} title={"Items Catalog"} />}
@@ -59,6 +59,7 @@ function App() {
           <Route path="/items" element={<ItemsTable allItems={data} />} />
           <Route path="/items/:id" element={<ItemPage allItems={data} />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
         </Routes>
       </Router>
     </div>

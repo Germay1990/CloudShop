@@ -10,10 +10,11 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useState, forwardRef } from "react";
+import { useState, useEffect, forwardRef } from "react";
 
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { Link } from "react-router-dom";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -21,12 +22,26 @@ const Alert = forwardRef(function Alert(props, ref) {
 
 export default function Cart(props) {
   let [currentItem, setCurrentItem] = useState({});
-  const [open, setOpen] = useState(false);
+  let [open, setOpen] = useState(false);
 
-  const [openSnackbar, setOpenSnackbar] = useState({
+  let [openSnackbar, setOpenSnackbar] = useState({
     open: false,
     severity: "",
     text: "",
+  });
+
+  let [totalPrice, setTotalPrice] = useState(0);
+
+  const setPrice = () => {
+    let sum = 0;
+    store.getState().map((item) => {
+      sum += item.price * item.qty;
+    });
+    setTotalPrice(sum);
+  };
+
+  useEffect(() => {
+    setPrice();
   });
 
   const handleAddProductClick = () => {
@@ -52,11 +67,11 @@ export default function Cart(props) {
     setOpenSnackbar({ ...openSnackbar, open: false });
   };
 
-  const handleClickOpen = () => {
+  const handleRemove = () => {
     setOpen(true);
   };
 
-  const handleClose = (evt) => {
+  const handleCloseRemoveDialog = (evt) => {
     if (evt.target.innerHTML === "Delete") {
       store.dispatch(removeFromCartAction(currentItem));
     }
@@ -116,7 +131,7 @@ export default function Cart(props) {
                     className="btn btn-danger"
                     onClick={(evt) => {
                       setCurrentItem(item);
-                      handleClickOpen(evt);
+                      handleRemove(evt);
                     }}
                   >
                     Remove
@@ -127,10 +142,17 @@ export default function Cart(props) {
             <hr />
           </div>
         ))}
+      <div>
+          Total price:<strong> {totalPrice}$</strong><br />
+        
+        <Link to={"/checkout"}>
+          <button className="btn btn-success">Checkout</button>
+        </Link>
+      </div>
 
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={handleCloseRemoveDialog}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -141,8 +163,8 @@ export default function Cart(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={handleCloseRemoveDialog}>Cancel</Button>
+          <Button onClick={handleCloseRemoveDialog} autoFocus>
             Delete
           </Button>
         </DialogActions>
